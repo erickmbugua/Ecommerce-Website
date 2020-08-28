@@ -1,2 +1,3 @@
 # Ecommerce-Webite
-This is an complete Ecommerce Website I built. It has a product recommendation system to assist customers, an integrated PayPal payment checkout and an effective admin site to manage products on the site and customer orders.
+This is an complete Ecommerce Website I built. It has a product recommendation system to assist customers in making informed choices while purchasing items, an integrated PayPal payment checkout and an effective admin site to manage products on the site and customer orders.
+I am constantly updating the frontend to improve the user experience.
