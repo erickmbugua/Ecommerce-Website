@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block title%} Payment Completed {% endblock %}
+
+{% block page_content %}
+	<p>Payment done.</p>
+	<a href="{% url 'ecommerce_platform:home' %}" class="btn btn-warning">Continue Shopping</a>
+{% endblock %}

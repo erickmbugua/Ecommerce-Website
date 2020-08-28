@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %} {% endblock %}</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container">
+			<a class="navbar-brand" href="{% url 'ecommerce_platform:home' %}">
+				<img src="{% static 'ecommerce_platform/obsidian.jpg' %}" width="40px">
+			Obsidian Traders</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav ml-auto">
+					{% if user.is_authenticated %}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="{% url 'ecommerce_platform:accounts' %}" id="navbardrop" data-toggle="dropdown">Account</a>
+							<div class=dropdown-menu>
+								
+								<a class="nav-link" href="{% url 'ecommerce_platform:accounts' %}"><i class="fas fa-user-circle"></i> {{user.get_username}}</a>
+								<a class="nav-link" href="{% url 'ecommerce_platform:pending_orders'%}">  Pending Orders</a>
+							</div>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+						</li>
+					{% else %}
+						<li class="nav-item active">
+							<a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="{% url 'ecommerce_platform:signup' %}?next={{request.path}}">SignUp</a>
+						</li>
+					{% endif %}
+					<li class="nav-item active">
+						<a class="nav-link" href="{% url 'ecommerce_platform:cart' %}">My Cart</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container">
+    	{% block page_content %}{% endblock %}
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+	<div class="container">
+		{% block extra_scripts%}{% endblock %}
+	</div>
+
+</body>
+</html>
+
+

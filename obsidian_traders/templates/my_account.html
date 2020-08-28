@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title%} My Account {% endblock %}
+{% block page_content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+
+<div class="card-columns">
+	<div class="card">
+		<div class="card-header">
+			Account Details
+		</div>
+		<div class="card-body">
+			First Name: {{user.first_name}}
+			<p></p>
+			Last Name: {{user.last_name}}
+			<p></p>
+			Email: {{user.email}}
+			<p></p>
+			Phone Number: {{user.user_profile.phone_number}}
+			<p></p>
+			Gender: {{user_profile.gender}}
+		</div>
+		<div class="card-footer">
+			<a href="{% url 'ecommerce_platform:account_details_change' %}"><i class="fas fa-edit"></i></a>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			Address Book
+		</div>
+		<div class="card-body">
+			Your default shipping address is:
+			<p></p>
+			{{address.street_address}}-{{address.postal_code}}<br>
+			{{address.city}},<br>
+			{{address.country}}
+		</div>
+		<div class="card-footer">
+			<a href="{% url 'ecommerce_platform:address_change' %}"><i class="fas fa-edit"></i></a>
+		</div>
+		
+	</div>
+{% endblock %}

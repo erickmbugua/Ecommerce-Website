@@ -1,0 +1,33 @@
+{%extends "base.html"%}
+
+{% block title%} {{category}} {% endblock %}
+
+{% block page_content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+<div class="sidebar">
+	<a href="{% url 'ecommerce_platform:home' %}">All</a>
+	{% for item_category in categories %}
+		<a href="{% url 'ecommerce_platform:product_category' item_category.name %}">{{item_category.name}}</a>
+	{% endfor %}
+</div>
+<div class="category-name">
+	<h4>{{category}}</h4>
+</div>
+<div class="card-columns main">
+	{%for product in products%}
+	<div class="card">
+		<img class="card-img-top" src="{{product.image.url}}">
+		<div class="card-body">
+			<h4><a href="{{product.get_absolute_url}}" >{{product.name}}</a></h4>
+			<h3>KSH {{product.price}}</h3>
+			<div class="add-to-cart">
+				<a href="{{product.get_add_to_cart_url}}" class="btn btn-info"> 
+					Add to cart
+				<i class="fas fa-shopping-cart ml-1"></i></a>
+			</div>
+		</div>
+	</div>
+	{% endfor %}	
+</div>
+{% endblock %}

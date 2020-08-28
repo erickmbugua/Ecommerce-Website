@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title%} Payment Cancelled {% endblock %}
+{% block page_content %}
+	<p>Payment Cancelled.</p>
+	<a href="{% url 'ecommerce_platform:home' %}" class="btn btn-dark">Continue Shopping</a>
+	<a href="{% url 'ecommerce_platform:cart' %}" class="btn btn-info">Return to Cart</a>
+{% endblock %}

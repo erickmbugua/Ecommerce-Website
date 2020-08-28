@@ -1,0 +1,195 @@
+body {
+	font-family: 'Poppins', sans-serif;
+	background: radial-gradient(#fff, #ffd6d6);
+}
+.address_options{
+	display: block;
+}
+.default_shipping_address{
+	display: block;
+}
+.pick_up_station{
+	display: none;
+}
+.new_shipping_address{
+	display: none;
+}
+.no_cart_items{
+	text-align: center;
+	font-family: "Times New Roman", Times, serif;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  /*background: Tomato;*/
+}
+.num{
+	color: rgb(139,0,0);
+}
+
+tr:nth-child(even){
+	background-color: rgb(128,128,128);
+}
+
+td,th{
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+th{
+	background-color: rgb(50,205,50);
+}
+.headers{
+	font-family: "Times New Roman", Times, serif;
+	text-align: center;
+}
+.sidebar{
+	margin: 0;
+	padding: 0;
+	width: 200px;
+	background-color: #f1f1f1;
+	position: absolute;
+	z-index: 1;
+	overflow: auto; 
+}
+.sidebar a{
+	display: block;
+	color:black;
+	padding:16px;
+	text-decoration: none;
+}
+.sidebar a.active{
+	background-color:#4CAF50;
+	color:white;
+}
+.sidebar a:hover:not(.active){
+	background-color: #555;
+	color: white;
+}
+div.category-name{
+	margin-left: 300px
+}
+div.main{
+	margin-left: 200px;
+	padding: 1px 16px;
+	height:1000px;
+}
+@media screen and (max-width: 700px){
+	.sidebar{
+		width:100%;
+		height:auto;
+		position:relative;
+	}
+	.sidebar a{float:left;}
+	div.category_name{margin-left: 0;}
+	div.main{margin-left: 0;}
+}
+@media screen and (max-width: 400px){
+	.sidebar a{
+		text-align: center;
+		float:none;
+	}
+}
+.add-to-cart{
+	z-index: 1;
+	position:relative;
+}
+img{
+	max-width: 200px;
+}
+
+body{
+	background-color: rgb(240,240,240);
+}
+.card{
+	max-width: 250px;
+	max-height: 400px;
+}
+
+.navbar-nav a.active{
+	background-color:#4CAF50;
+	color:white;
+}
+.navbar-nav a:hover:not(.active){
+	background-color: #555;
+	color: white;
+}
+.coupon{
+	color: rgb(50,205,50);
+}
+.check-out{
+	color: rgb(255,69,0);
+}
+.btn {
+	display: inline-block;
+	background: #ff523b;
+	color: #fff;
+	padding: 8px 30px;
+	margin: 30px 0;
+	border-radius: 30px;
+	transition: background 0.5s;
+}
+.btn:hover {
+	background: #563434;
+}
+/*The Modal (background) */
+.modal{
+	display: block;
+	position: fixed;
+	z-index: 1;
+	padding-top: 100px;
+	left: 0;
+	top: 20;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.4);
+}
+/* Modal Content */
+.modal-content{
+	position: relative;
+	background-color: #fefefe;
+	margin:auto;
+	padding: 0;
+	border: 1px solid #888;
+	width:80%;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+	-webkit-animation-name: animatetop;
+	-webkit-animation-duration: 0.4s;
+}
+@-webkit-keyframes animatetop{
+	from {top: -300px; opacity: 0}
+	to {top: 0; opacity: 1}
+}
+@keyframes animatetop{
+	from {top: -300px; opacity:0}
+	to {top:0; opacity: 1}
+}
+.close{
+	color: white;
+	float:right;
+	font-size: 28px;
+	font-weight: bold;
+}
+.close:hover,
+.close:focus{
+	color:#000;
+	text-decoration: none;
+	cursor: pointer;
+}
+.modal-header{
+	padding: 2px 16px;
+	background-color: #5cb85c;
+	color: white;
+}
+ .modal-body{
+ 	padding: 2px 16px;
+ }
+
+ .modal-footer{
+ 	padding: 2px 16px;
+ 	background-color: #5cb85c;
+ 	color: white;
+ }

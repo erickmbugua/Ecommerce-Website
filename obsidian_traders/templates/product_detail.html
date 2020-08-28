@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title%} {{product.name|slice:"5"}} {% endblock %}
+
+{% block page_content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+{% if messages %}
+	<div class="messages modal" id="myModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2>Success!</h2>
+				<span class="close">&times;
+				</span>
+			</div>
+			<div class="modal-body">
+				{% for message in messages %}
+					<p>{{message}}</p>
+				{% endfor %}
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" id="continue_shopping">Continue Shopping</button>
+				<a class="btn btn-info" href="{% url 'ecommerce_platform:check_out' %}">CheckOut</a>
+			</div>
+		</div>
+	</div>
+{% endif %}
+<div class="row">
+	<div class="col-md-5">
+		<img src="{{product.image.url}}" alt="" width="100%">
+	</div>
+	<div class="col-md-5">
+		<p></p>
+		<h4>{{product.name}}</h4>
+		<p>Brand:{{product.manufacturer}}</p>
+		<p></p>
+		<h3>Ksh {{product.price}}</h3>
+
+		<a href="{{product.get_add_to_cart_url}}" class="btn btn-primary"> 
+			Add to cart
+			<i class="fas fa-shopping-cart ml-1"></i>
+		</a>
+	</div>
+	<div class="col-md-2">
+		<p></p>
+		<strong>Delivery</strong>
+		<p>Delivered within 4 days</p>
+		<strong>Warranty</strong>
+		<p>1 year</p>
+		<strong>Returns</strong>
+		<p>Easy Returns</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-10">
+		<h3>Product Description</h3>
+		<p>{{product.description}}</p>
+	</div>
+	<div class="col-md-2">
+		<div class="card">
+				<img class="card-img-top" src="{{product.image.url}}" width="10">
+				<div class="card-body">
+					<h5><a href="{{product.get_absolute_url}}">{{product.name | slice:"20"}}...</a></h5>
+					<h5>KSH {{product.price}}</h5>
+					<a href="{{product.get_add_to_cart_url}}" class="btn btn-primary"> 
+						Add to cart
+					</a>
+				</div>
+			</div>
+	</div>
+</div>
+
+<div>
+	{% if order.exists %}
+		<h3>Leave a comment</h3>
+		<form method="post">
+			{% csrf_token %}
+			<div class="form-group">
+				{{form.author}}
+			</div>
+			<div class="form-group">
+				{{form.body}}
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	{% endif %}
+	{% if comments.exists %}
+		<h3>Comments from Verified Purchases</h3>
+		{% for comment in comments %}
+		<p>
+			On {{comment.created_on.date}} &nbsp;
+			<b> {{comment.author}}</b> wrote:
+		</p>
+		<p>{{ comment.body }}</p>
+		<hr>
+		{% endfor %}
+	{% endif %}
+</div>
+	{% if recommended_products %}
+		<div class="recommendations">
+			<h3 style="text-align: center;">People who bought this also bought</h3>
+			<div class="card-columns main">
+				{% for product in recommended_products %}
+					<div class="card">
+						<img class="card-img-top" src="{{product.image.url}}">
+						<div class="card-body">
+							<h5><a href="{{product.get_absolute_url}}" class="stretched-link">{{product.name}}</a></h5>
+							<h5>KSH {{product.price}}</h5>
+						</div>
+					</div>
+				{% endfor %}
+			</div>		
+		</div>
+	{% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+	<script type="text/javascript">
+		var modal=document.getElementById("myModal");
+		var span=document.getElementsByClassName("close")[0];
+		var cont_shopping=document.getElementById("continue_shopping");
+		//when user clicks on <span> (x),close the modal
+		span.onclick=function(){
+			console.log("span clicked")
+			modal.style.display="none";
+		}
+		//if user clicks on continue shopping, close the modal
+		cont_shopping.onclick=function(){
+			console.log("cont clicked")
+			modal.style.display="none";
+		}
+		//when user clicks anywhere outside the modal, close it
+		window.onclick=function(event){
+			if(event.target==modal){
+				console.log("window clicked")
+				modal.style.display="none";
+			}
+		}
+	</script>
+{% endblock %}

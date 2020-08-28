@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %} Pending Orders {% endblock %}
+
+{% block page_content %}
+<h1 class="headers">Pending Orders</h1>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+{% if pending_orders.exists %}
+	<table>
+		<thead>
+			<tr>
+				<th>Image</th>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Unit Price</th>
+				<th>Price</th>
+				<th>Delivery Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for order in pending_orders %}
+				<tr>
+					<td>
+						<img src="{{order.product.image.url}}" alt="" width="100">
+					</td>
+					<td>{{order.product.name}}</td>
+					<td>{{order.quantity}}</td>
+					<td class=>Ksh {{order.product.price}}</td>
+					<td class="num">Ksh {{order.get_total}}</td>
+					<td>By {{order.delivery_date}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<p class="text-right">
+		<a class="btn btn-dark" href="{% url 'ecommerce_platform:home' %}">Continue Shopping</a>
+{% else %}
+	<h1 class="no_cart_items">You do not have any pending orders</h1>
+{% endif %}
+{% endblock %}

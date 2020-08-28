@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %} My Cart {% endblock %}
+
+{% block page_content %}
+<h1 class="headers">My Cart</h1>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+{% if orders.exists %}
+	<table>
+		<thead>
+			<tr>
+				<th>Image</th>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Remove</th>
+				<th>Unit Price</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for order in orders %}
+				<tr>
+					<td>
+						<img src="{{order.product.image.url}}" alt="" width="100">
+					</td>
+					<td>{{order.product.name}}</td>
+					<td>
+						<form action="{% url 'ecommerce_platform:update_cart_quantity' order.product.slug %}" method="POST" class="form-group">
+      						{% csrf_token %}
+      						{{order.update_quantity_form.quantity}}
+      						<input type="submit" value="Update">
+    					</form>
+					</td>
+					<td>
+						<a href="{{order.product.get_remove_from_cart_url}}" class="btn btn-dark"> 
+						Remove 
+						<i class="fas fa-shopping-cart ml-1"></i></a>
+					</td>
+					<td class=>Ksh {{order.product.price}}</td>
+					<td class="num">Ksh {{order.get_total}}</td>
+				</tr>
+			{% endfor %}
+			<tr>
+				<th><h4>Total</h4></th>
+				<th colspan="4"></th>
+				<th class="num" >Ksh {{cart.get_total}}</th>
+			</tr>
+		</tbody>
+	</table>
+	<p class="text-right">
+		<a class="btn btn-light" href="{% url 'ecommerce_platform:home' %}">Continue Shopping</a>
+		<a class="btn btn-info" href="{% url 'ecommerce_platform:check_out' %}">CheckOut</a>	
+	</p>
+	</div>
+	{% if recommended_products %}
+		<div class="cart-recommendations">
+			<h3 style="text-align: center;">People who bought this also bought</h3>
+			<div class="card-columns main">
+				{% for product in recommended_products %}
+					<div class="card">
+						<img class="card-img-top" src="{{product.image.url}}">
+						<div class="card-body">
+							<h5><a href="{{product.get_absolute_url}}" class="stretched-link">{{product.name}}</a></h5>
+							<h5>KSH {{product.price}}</h5>
+						</div>
+					</div>
+				{% endfor %}
+			</div>		
+		</div>
+	{% endif %}
+</div>
+{% else %}
+	<h1 class="no_cart_items">You do not have any items in cart</h1>
+{% endif %}
+{% endblock %}
+
+
+

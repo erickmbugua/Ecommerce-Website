@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title%} Obsidian Traders {% endblock %}
+
+{% block page_content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+<div class="sidebar">
+		{% for category in categories %}
+			<a href="{% url 'ecommerce_platform:product_category' category.name %}">{{category.name}}</a>
+		{% endfor %}
+</div>
+<div class="card-columns main">
+		{% for product in products %}
+			<div class="card">
+				<img class="card-img-top" src="{{product.image.url}}">
+				<div class="card-body">
+					<h5><a href="{{product.get_absolute_url}}" class="stretched-link">{{product.name}}</a></h5>
+					<h5>KSH {{product.price}}</h5>
+				</div>
+			</div>
+		{% endfor %}
+</div>		
+
+{% endblock %}

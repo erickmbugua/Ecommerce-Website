@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title%} Login {% endblock %}
+
+{% block page_content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+	<h2>Login</h2>
+	<form method="post" class="form-group">
+		{% csrf_token %}
+		{{form|crispy}}
+		<button type="submit" class="btn btn-success">Login</button>
+	</form>
+	<a href="{% url 'ecommerce_platform:signup' %}" class="btn btn-dark">Sign Up</a>
+	
+{% endblock %}

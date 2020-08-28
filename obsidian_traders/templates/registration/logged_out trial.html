@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title%} Logout {% endblock %}
+
+{% block page_content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+	<h2>Logged out</h2>
+	<p>You have been successfully logged out.</p>
+	<p><a href="{% url 'ecommerce_platform:login'%}">Log in</a>again.</p>
+{% endblock %}

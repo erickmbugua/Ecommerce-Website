@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title%} Checkout {% endblock %}
+
+{% block page_content %}
+{% load crispy_forms_tags%}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+<h1 class="check-out">Check Out</h1>
+<div class="check-out-order">
+	{% if messages %}
+	<div class="messages modal" id="myModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2>Hello {{user.first_name}},</h2>
+				<span class="close">&times;
+				</span>
+			</div>
+			<div class="modal-body">
+				{% for message in messages %}
+					<p>{{message}}</p>
+				{% endfor %}
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" id="continue_shopping">Ok</button>
+			</div>
+		</div>
+	</div>
+{% endif %}	<h4>Your Order</h4>
+	{% for order in orders %}
+		<div class="row">
+			<div class="col-md-5">
+				{{order.quantity}} X {{order.product.name}} 
+			</div>
+			<div class="col-md-2">
+				Ksh {{order.get_total}}
+			</div>
+		</div>
+	{% endfor %}
+	<div class="row">
+		<div class="col-md-5">
+		{% if coupon_id%}
+			<strong>Sub Total</strong>
+		{% else %}
+			<strong>Total</strong>
+		{% endif %}
+		</div>
+		<div class="col-md-2">
+			<strong>Ksh {{cart.get_total}}</strong>
+		</div>
+	</div>
+	{% if coupon_id %}
+		<div class="row">
+			<div class="col-md-5">
+				<strong>Coupon:{{coupon.code}}</strong>
+			</div>
+			<div class="col-md-2">
+				<strong>-Ksh {{coupon.discount}}</strong>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5">
+				<strong>Total</strong>
+			</div>
+			<div class="col-md-2">
+				<strong>Ksh {{cart_discounted_total}}</strong>
+			</div>
+		</div>
+	{% endif %}
+</div>
+
+<div>
+	<form action="{% url 'ecommerce_platform:apply_coupon' %}" method="POST">
+		{%csrf_token%}
+		<strong class="coupon">{{coupon_form.code.label}}</strong>
+		{{coupon_form.code}}
+		<input type="submit" name="Apply Coupon" class="btn btn-success">
+	</form>
+</div>
+
+<div>
+	<form method="POST" class="form-group">
+		{%csrf_token%}
+		<div>
+			<h4>Choose your preferred delivery method</h4>
+			<select class="delivery_method" name="delivery_method" id="id_delivery_method">
+  				<option value="Delivery to Home or Office">Delivery to Home or Office</option>
+				<option value="Pick Up Station">Pick Up Station</option>
+			</select>
+		</div>
+		<div class="pick_up_station">
+			<h4>Choose your preferred pick up station</h4>
+			{{check_out_form.pick_up_station}}
+		</div>
+		<div class="address_options">
+			<h4>Choose your preferred shipping address</h4>
+			<select class="shipping_address" name="shipping_address" id="id_shipping_address">
+  				<option value="Use Default Shipping Address">Use Default Shipping Address</option>
+				<option value="Set New Shipping Address">Set New Shipping Address</option>
+			</select>
+			<div class="new_shipping_address">
+				<h4>Fill out your new shipping address</h4>
+				<p>Street Address: {{check_out_form.street_address}}</p>
+				<p>Postal Code: {{check_out_form.postal_code}}</p>
+				<p>City: {{check_out_form.city}}</p>
+				<p>Country: {{check_out_form.country}}</p>
+			</div>
+			<div class="default_shipping_address">
+				<h4>Your default shipping address is:</h4>
+				<ul>
+					<li>
+						<b><i>{{address.street_address}}-{{address.postal_code}} {{address.city}},{{address.country}}</i></b>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="payment_option">
+			<h4>Choose a payment method:</h4>
+			{{check_out_form.payment_option}}
+		</div>
+		<p></p>
+		<button type="submit" class="btn btn-success">Continue</button>
+	</form>
+	<a href="{% url 'ecommerce_platform:cart' %}" class="btn btn-warning">Back</a>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts%}
+<script>
+	//for popup
+	var modal=document.getElementById("myModal");
+	var span=document.getElementsByClassName("close")[0];
+	var cont_shopping=document.getElementById("continue_shopping");
+	//when user clicks on <span> (x),close the modal
+	span.onclick=function(){
+		console.log("span clicked")
+		modal.style.display="none";
+	}
+	//if user clicks on continue shopping, close the modal
+	cont_shopping.onclick=function(){
+		console.log("cont clicked")
+		modal.style.display="none";
+	}
+	//when user clicks anywhere outside the modal, close it
+	window.onclick=function(event){
+		if(event.target==modal){
+			console.log("window clicked")
+			modal.style.display="none";
+		}
+	}
+	//hiding and showing div elements
+	var delivery_method=$('select.delivery_method');
+	var pick_up_station=document.querySelector('.pick_up_station');
+	var ship_address=document.querySelector('.address_options')
+	var shipping_address=$('select.shipping_address');
+	var new_shipping_address=document.querySelector('.new_shipping_address');
+	var default_shipping_address=document.querySelector('.default_shipping_address');
+	console.log(delivery_method.children("option:selected").val())
+	
+	delivery_method.change(function(){
+		var opt=delivery_method.children("option:selected").val()
+		if (opt=="Pick Up Station") {
+			pick_up_station.style.display="block";
+			ship_address.style.display="none";
+		}
+		else if (opt=="Delivery to Home or Office") {
+			pick_up_station.style.display="none";
+			ship_address.style.display="block";
+		}
+		else{
+			pick_up_station.style.display="none";
+			ship_address.style.display="none";
+		}
+	})
+	shipping_address.change(function(){
+		var opt=shipping_address.children("option:selected").val()
+		if (opt=="Use Default Shipping Address") {
+			default_shipping_address.style.display="block"
+			new_shipping_address.style.display="none";
+		}
+		else if (opt=="Set New Shipping Address") {
+			new_shipping_address.style.display="block";
+			default_shipping_address.style.display="none";
+		}
+		else{
+			new_shipping_address.style.display="none";
+			default_shipping_address.style.display="none";
+
+		}
+	})
+	
+</script>
+{% endblock %}

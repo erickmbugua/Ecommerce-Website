@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title%} Address Change {% endblock %}
+{% block page_content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ecommerce_platform/styles.css'%}">
+		<h4>Change Shipping ddress</h4>
+		<form method="post" class="form-group">
+			{% csrf_token %}
+			{{ form|crispy }}
+			<button type="submit" class="btn btn-warning">Change</button>
+		</form>
+		
+{% endblock %}
